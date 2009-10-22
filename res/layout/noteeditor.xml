@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+	
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/NoteEditor.NoteTitle"/>
+		
+	
+
+<EditText android:layout_height="wrap_content" android:id="@+id/NoteEditor.NoteName" android:layout_width="fill_parent"></EditText>
+</LinearLayout>
+
+	
+	<EditText android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:scrollbars="vertical" android:id="@+id/NoteEditor.Body" android:gravity="top|left"/>		
+
+
+	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal">
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/NoteEditor.ButtonSave" android:id="@+id/NoteEditor.ButtonSave"/>
+		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/NoteEditor.ButtonClose" android:id="@+id/NoteEditor.ButtonClose"></Button>
+</LinearLayout>
+</LinearLayout>
