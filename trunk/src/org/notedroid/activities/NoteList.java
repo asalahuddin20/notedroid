@@ -55,7 +55,8 @@ public class NoteList extends ListActivity {
         item = menu.add(0, INSERT_NOTE_ID, 0, R.string.menu_create_note);
         item.setIcon(R.drawable.newnote32);
         
-        menu.add(0, INSERT_CATEGORY_ID, 0, R.string.menu_create_category);
+        item = menu.add(0, INSERT_CATEGORY_ID, 0, R.string.menu_create_category);
+        item.setIcon(R.drawable.newcategory32);
         
         item = menu.add(0, MOVE_CATEGORY_UP_ID, 0, R.string.menu_move_category_up);
         item.setIcon(R.drawable.moveup32);        
