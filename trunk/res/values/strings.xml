@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">NoteDroid</string>
+    <string name="NoteList.NoNotes">No notes yet!</string>
+<string name="menu_create_note">New note</string>
+<string name="NoteEditor.NoteTitle">Title:</string>
+
+
+<string name="NoteEditor.ButtonClose">Close</string>
+<string name="NoteEditor.ButtonSave">Save</string>
+<string name="menu_delete_note">Delete note</string>
+<string name="NameEditor.NameLabel">Name:</string>
+<string name="NameEditor.SaveButton">Save</string>
+<string name="NameEditor.CancelButton">Cancel</string>
+<string name="menu_create_category">New category</string>
+<string name="menu_edit_name">Edit name</string>
+<string name="menu_move_category_up">Up</string>
+
+<string name="PreferenceSortTitle">Sort mode</string>
+<string name="PreferenceSortSummary">Specify how notes and category are sorted in the notes list view.</string>
+
+<string name="PreferenceSortAscending">Ascending</string>
+<string name="PreferenceSortDescending">Descending</string>
+<string-array name="PreferencesSort"><item>@string/PreferenceSortAscending</item>
+<item>@string/PreferenceSortDescending</item>
+</string-array>
+<string-array name="PreferencesSortValues"><item>asc</item>
+<item>desc</item>
+</string-array>
+</resources>

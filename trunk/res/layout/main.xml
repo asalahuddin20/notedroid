@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<TableLayout android:layout_width="fill_parent" android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+
+<TableRow android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="center"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Main.ViewNotesBtn" android:duplicateParentState="false" android:layout_margin="25px" android:src="@drawable/viewnotes64"></ImageButton>
+<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Main.NewNoteBtn" android:layout_margin="25px" android:src="@drawable/newnote64"></ImageButton>
+</TableRow>
+<TableRow android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="center"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:src="@drawable/viewconfiguration64" android:id="@+id/Main.ViewPreferencesBtn"></ImageButton><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:src="@drawable/about64" android:id="@+id/Main.ViewAboutBtn"></ImageButton>
+</TableRow>
+
+
+
+
+
+</TableLayout>
