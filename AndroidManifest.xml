@@ -12,10 +12,11 @@
             </intent-filter>
         </activity>
 
-    <activity android:name=".activities.NoteEditor"></activity>
-<activity android:name=".activities.NameEditor"></activity>
+    <activity android:name=".activities.NoteEditor" android:windowSoftInputMode="adjustResize"></activity>
+<activity android:name=".activities.NameEditor" android:windowSoftInputMode="stateVisible|adjustResize"></activity>
 <activity android:name=".activities.NoteList"></activity>
 <activity android:name=".activities.PreferencesScreen"></activity>
+
 </application>
     <uses-sdk android:minSdkVersion="3" />
 

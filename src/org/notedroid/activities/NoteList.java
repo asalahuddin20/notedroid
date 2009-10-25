@@ -144,6 +144,7 @@ public class NoteList extends ListActivity {
         if (type == NotesDbAdapter.TYPE_NOTE) {
         	Intent i = new Intent(this, NoteEditor.class);
         	i.putExtra(NotesDbAdapter.KEY_ROWID, id);
+        	i.putExtra(NoteEditor.NOTEEDITOR_MODE, NoteEditor.NOTEEDITOR_MODE_SHOW);
         	startActivityForResult(i, ACTIVITY_EDIT_NOTE);
         } else if (type == NotesDbAdapter.TYPE_FOLDER) {
         	mCurrentParentId = id;
@@ -162,6 +163,7 @@ public class NoteList extends ListActivity {
         Intent i = new Intent(this, NoteEditor.class);
         i.putExtra(NotesDbAdapter.KEY_ROWID, new Long(-1));
         i.putExtra(NotesDbAdapter.KEY_PARENTID, mCurrentParentId);
+        i.putExtra(NoteEditor.NOTEEDITOR_MODE, NoteEditor.NOTEEDITOR_MODE_EDIT);
         startActivityForResult(i, ACTIVITY_CREATE_NOTE);
     }
     
