@@ -6,6 +6,11 @@
 <string name="menu_create_note">New note</string>
 <string name="NoteEditor.NoteTitle">Title:</string>
 
+<string name="AboutDialog.Title">About</string>
+<string name="AboutDialog.Version">0.1</string>
+<string name="AboutDialog.Text1">Version:</string>
+<string name="AboutDialog.Text2">Text2</string>
+<string name="AboutDialog.CloseBtn">Close</string>
 
 <string name="NoteEditor.ButtonClose">Close</string>
 <string name="NoteEditor.ButtonSave">Save</string>
