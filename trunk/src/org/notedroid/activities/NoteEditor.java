@@ -91,6 +91,8 @@ public class NoteEditor extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(NotesDbAdapter.KEY_ROWID, mRowId);
+        outState.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);
+        outState.putString(NoteEditor.NOTEEDITOR_MODE, mNoteMode);
     }
     
     @Override
