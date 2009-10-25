@@ -12,14 +12,14 @@
 		
 	
 
-<EditText android:layout_height="wrap_content" android:id="@+id/NoteEditor.NoteName" android:layout_width="fill_parent"></EditText>
+<EditText android:layout_height="wrap_content" android:id="@+id/NoteEditor.NoteName" android:layout_width="fill_parent" android:inputType="textCapSentences|textAutoComplete|textAutoCorrect"></EditText>
 </LinearLayout>
 
 	
 	<EditText android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:layout_weight="1"
-		android:scrollbars="vertical" android:id="@+id/NoteEditor.Body" android:gravity="top|left"/>		
+		android:scrollbars="vertical" android:id="@+id/NoteEditor.Body" android:gravity="top|left" android:inputType="textCapSentences|textAutoComplete|textAutoCorrect"/>		
 
 
 	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal">

@@ -7,13 +7,19 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class NoteEditor extends Activity {
 	
+	public static final String NOTEEDITOR_MODE = "NOTEEDITOR_MODE";
+	public static final String NOTEEDITOR_MODE_SHOW = "NOTEEDITOR_MODE_SHOW";
+	public static final String NOTEEDITOR_MODE_EDIT = "NOTEEDITOR_MODE_EDIT";		
+	
 	private EditText mTitleText;
     private EditText mBodyText;
+    private String mNoteMode;
     private Long mRowId;
     private Long mParentId;
     
@@ -39,15 +45,24 @@ public class NoteEditor extends Activity {
         if (savedInstanceState != null) {
         	mRowId = savedInstanceState.getLong(NotesDbAdapter.KEY_ROWID);
         	mParentId = savedInstanceState.getLong(NotesDbAdapter.KEY_PARENTID);
+        	mNoteMode = savedInstanceState.getString(NoteEditor.NOTEEDITOR_MODE);
         } else {
         	Bundle extras = getIntent().getExtras();
         	if (extras != null) {
         		mRowId = extras.getLong(NotesDbAdapter.KEY_ROWID);
         		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);
+        		mNoteMode = extras.getString(NoteEditor.NOTEEDITOR_MODE);
         	} else {
         		mRowId = new Long(-1);
         		mParentId = new Long(-1);
+        		mNoteMode = NOTEEDITOR_MODE_SHOW;
         	}
+        }
+        
+        if (mNoteMode.equals(NOTEEDITOR_MODE_EDIT)) {
+        	this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        } else {
+        	this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
         
         populateFields();

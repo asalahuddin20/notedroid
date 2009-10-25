@@ -54,13 +54,13 @@ public class NoteDroid extends Activity {
 		Intent i = new Intent(this, NoteEditor.class);
 		i.putExtra(NotesDbAdapter.KEY_ROWID, new Long(-1));
         i.putExtra(NotesDbAdapter.KEY_PARENTID, new Long(-1));
+        i.putExtra(NoteEditor.NOTEEDITOR_MODE, NoteEditor.NOTEEDITOR_MODE_EDIT);                
 		startActivityForResult(i, ACTIVITY_CREATE_NEW_NOTE);		
 	}
 	
 	private void openPreferences() {
 		Intent preferencesActivity = new Intent(this, PreferencesScreen.class);
   		startActivity(preferencesActivity);
-
 	}
 	
 }
