@@ -9,13 +9,18 @@
 
 <string name="NoteEditor.ButtonClose">Close</string>
 <string name="NoteEditor.ButtonSave">Save</string>
-<string name="menu_delete_note">Delete note</string>
+<string name="menu_delete">Delete</string>
 <string name="NameEditor.NameLabel">Name:</string>
 <string name="NameEditor.SaveButton">Save</string>
 <string name="NameEditor.CancelButton">Cancel</string>
-<string name="menu_create_category">New category</string>
+<string name="menu_create_folder">New folder</string>
 <string name="menu_edit_name">Edit name</string>
-<string name="menu_move_category_up">Up</string>
+<string name="menu_move_folder_up">Parent folder</string>
+
+<string name="Main.ViewNotes">View notes</string>
+<string name="Main.NewNote">New note</string>
+<string name="Main.Preferences">Preferences</string>
+<string name="Main.About">About</string>
 
 <string name="PreferenceSortTitle">Sort mode</string>
 <string name="PreferenceSortSummary">Specify how notes and category are sorted in the notes list view.</string>

@@ -20,7 +20,7 @@ public class NotesDbAdapter {
     public static final String KEY_ROWID = "_id";
 
     public static final int TYPE_NOTE = 0;
-    public static final int TYPE_CATEGORY = 1;
+    public static final int TYPE_FOLDER = 1;
     
     private static final String TAG = "NotesDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -84,9 +84,9 @@ public class NotesDbAdapter {
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
     
-    public long createCategory(String title, long parentId) {
+    public long createFolder(String title, long parentId) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_TYPE, TYPE_CATEGORY);
+        initialValues.put(KEY_TYPE, TYPE_FOLDER);
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_PARENTID, parentId);
 
@@ -125,7 +125,7 @@ public class NotesDbAdapter {
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
     
-    public boolean updateCategory(long rowId, String title) {
+    public boolean updateFolder(long rowId, String title) {
     	ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
         

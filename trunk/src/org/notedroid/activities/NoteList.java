@@ -21,14 +21,14 @@ public class NoteList extends ListActivity {
 	
 	private static final int ACTIVITY_CREATE_NOTE = 0;
     private static final int ACTIVITY_EDIT_NOTE = 1;
-    private static final int ACTIVITY_CREATE_CATEGORY = 2;
+    private static final int ACTIVITY_CREATE_FOLDER = 2;
     private static final int ACTIVITY_EDIT_NAME = 3;    
     
     private static final int INSERT_NOTE_ID = Menu.FIRST;
     private static final int DELETE_NOTE_ID = Menu.FIRST + 1;
-    private static final int INSERT_CATEGORY_ID = Menu.FIRST + 2;
+    private static final int INSERT_FOLDER_ID = Menu.FIRST + 2;
     private static final int EDIT_NAME_ID = Menu.FIRST + 3;
-    private static final int MOVE_CATEGORY_UP_ID = Menu.FIRST + 4;
+    private static final int MOVE_FOLDER_UP_ID = Menu.FIRST + 4;
 	
 	private NotesDbAdapter mDbHelper;
 	
@@ -55,10 +55,10 @@ public class NoteList extends ListActivity {
         item = menu.add(0, INSERT_NOTE_ID, 0, R.string.menu_create_note);
         item.setIcon(R.drawable.newnote32);
         
-        item = menu.add(0, INSERT_CATEGORY_ID, 0, R.string.menu_create_category);
-        item.setIcon(R.drawable.newcategory32);
+        item = menu.add(0, INSERT_FOLDER_ID, 0, R.string.menu_create_folder);
+        item.setIcon(R.drawable.newfolder32);
         
-        item = menu.add(0, MOVE_CATEGORY_UP_ID, 0, R.string.menu_move_category_up);
+        item = menu.add(0, MOVE_FOLDER_UP_ID, 0, R.string.menu_move_folder_up);
         item.setIcon(R.drawable.moveup32);        
         
         return true;
@@ -83,10 +83,10 @@ public class NoteList extends ListActivity {
         case INSERT_NOTE_ID:
             createNote();
             return true;            
-        case INSERT_CATEGORY_ID:
+        case INSERT_FOLDER_ID:
         	createCategory();
         	return true;
-        case MOVE_CATEGORY_UP_ID:
+        case MOVE_FOLDER_UP_ID:
         	if (!doMoveUp()) {
         		finish();
         	}
@@ -112,7 +112,7 @@ public class NoteList extends ListActivity {
 		
 		MenuItem item;
 		item = menu.add(0, EDIT_NAME_ID, 0, R.string.menu_edit_name);
-        item = menu.add(0, DELETE_NOTE_ID, 0, R.string.menu_delete_note);
+        item = menu.add(0, DELETE_NOTE_ID, 0, R.string.menu_delete);
         item.setIcon(R.drawable.delete32);
 	}
     
@@ -145,7 +145,7 @@ public class NoteList extends ListActivity {
         	Intent i = new Intent(this, NoteEditor.class);
         	i.putExtra(NotesDbAdapter.KEY_ROWID, id);
         	startActivityForResult(i, ACTIVITY_EDIT_NOTE);
-        } else if (type == NotesDbAdapter.TYPE_CATEGORY) {
+        } else if (type == NotesDbAdapter.TYPE_FOLDER) {
         	mCurrentParentId = id;
         	fillData();
         }
@@ -169,7 +169,7 @@ public class NoteList extends ListActivity {
     	Intent i = new Intent(this, NameEditor.class);
     	i.putExtra(NotesDbAdapter.KEY_ROWID, new Long(-1));
     	i.putExtra(NotesDbAdapter.KEY_PARENTID, mCurrentParentId);
-        startActivityForResult(i, ACTIVITY_CREATE_CATEGORY);    	
+        startActivityForResult(i, ACTIVITY_CREATE_FOLDER);    	
     }
     
     private void fillData() {

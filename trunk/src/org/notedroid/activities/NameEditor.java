@@ -12,7 +12,7 @@ import android.widget.EditText;
 
 public class NameEditor extends Activity {
 	
-	private EditText mCategoryNameText;
+	private EditText mNameText;
 	private Long mRowId;
 	private Long mParentId;
 	
@@ -29,7 +29,7 @@ public class NameEditor extends Activity {
         
         setContentView(R.layout.nameeditor);
         
-        mCategoryNameText = (EditText) findViewById(R.id.NameEditor_NameEditText);
+        mNameText = (EditText) findViewById(R.id.NameEditor_NameEditText);
         
         Button saveButton = (Button) findViewById(R.id.NameEditor_SaveButton);
         Button cancelButton = (Button) findViewById(R.id.NameEditor_CancelButton);
@@ -97,14 +97,14 @@ public class NameEditor extends Activity {
             Cursor note = mDbHelper.fetchNote(mRowId);
             startManagingCursor(note);
             
-            mCategoryNameText.setText(note.getString(
+            mNameText.setText(note.getString(
     	            note.getColumnIndexOrThrow(NotesDbAdapter.KEY_TITLE)));            
         }
     }
     
     private void saveState() {
     	if (!mBoIsCancelled) {
-    		String title = mCategoryNameText.getText().toString();
+    		String title = mNameText.getText().toString();
 
     		if ((title == null) || 
     				(title.length() == 0)) {
@@ -112,12 +112,12 @@ public class NameEditor extends Activity {
     		}
 
     		if (mRowId == -1) {
-    			long id = mDbHelper.createCategory(title, mParentId);
+    			long id = mDbHelper.createFolder(title, mParentId);
     			if (id > 0) {
     				mRowId = id;
     			}
     		} else {
-    			mDbHelper.updateCategory(mRowId, title);
+    			mDbHelper.updateFolder(mRowId, title);
     		}        
     	}
     }

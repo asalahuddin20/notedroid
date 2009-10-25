@@ -13,7 +13,7 @@ import android.widget.SimpleCursorAdapter;
 
 public class ListDbAdapter extends SimpleCursorAdapter {
 
-	private Bitmap mCategoryIcon;
+	private Bitmap mFolderIcon;
 	private Bitmap mNoteIcon;
 	
 	private NotesDbAdapter mDbHelper;
@@ -23,8 +23,8 @@ public class ListDbAdapter extends SimpleCursorAdapter {
 		
 		mDbHelper = dbHelper;
 		
-		mCategoryIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.category);
-		mNoteIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.note);
+		mFolderIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.folder48);
+		mNoteIcon = BitmapFactory.decodeResource(context.getResources(), R.drawable.note48);
 	}
 
 	@Override
@@ -39,8 +39,8 @@ public class ListDbAdapter extends SimpleCursorAdapter {
 		
 		// Set the correct image.
 		int type = mDbHelper.getTypeById(id);		
-		if (type == NotesDbAdapter.TYPE_CATEGORY) {
-			image.setImageBitmap(mCategoryIcon);
+		if (type == NotesDbAdapter.TYPE_FOLDER) {
+			image.setImageBitmap(mFolderIcon);
 		} else {
 			image.setImageBitmap(mNoteIcon);
 		}		
