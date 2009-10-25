@@ -5,10 +5,13 @@
 
 
 
-<TableRow android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="center"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Main.ViewNotesBtn" android:duplicateParentState="false" android:layout_margin="25px" android:src="@drawable/viewnotes64"></ImageButton>
-<ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:id="@+id/Main.NewNoteBtn" android:layout_margin="25px" android:src="@drawable/newnote64"></ImageButton>
+<TableRow android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="center">
+<Button android:id="@+id/Main.ViewNotesBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:drawableTop="@drawable/viewnotes64" android:text="@string/Main.ViewNotes"></Button>
+<Button android:id="@+id/Main.NewNoteBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:drawableTop="@drawable/newnote64" android:text="@string/Main.NewNote"></Button>
 </TableRow>
-<TableRow android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="center"><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:src="@drawable/viewconfiguration64" android:id="@+id/Main.ViewPreferencesBtn"></ImageButton><ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:src="@drawable/about64" android:id="@+id/Main.ViewAboutBtn"></ImageButton>
+<TableRow android:layout_width="wrap_content" android:layout_height="fill_parent" android:gravity="center">
+<Button android:id="@+id/Main.ViewPreferencesBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:drawableTop="@drawable/viewconfiguration64" android:text="@string/Main.Preferences"></Button>
+<Button android:id="@+id/Main.ViewAboutBtn" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_margin="25px" android:drawableTop="@drawable/about64" android:text="@string/Main.About"></Button>
 </TableRow>
 
 

@@ -8,7 +8,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
+import android.widget.Button;
 
 public class NoteDroid extends Activity {
 	
@@ -20,7 +20,7 @@ public class NoteDroid extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 		
-		ImageButton viewNotesBtn = (ImageButton) findViewById(R.id.Main_ViewNotesBtn);		
+		Button viewNotesBtn = (Button) findViewById(R.id.Main_ViewNotesBtn);		
 		viewNotesBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -28,7 +28,7 @@ public class NoteDroid extends Activity {
             }          
         });
 		
-		ImageButton newNoteBtn = (ImageButton) findViewById(R.id.Main_NewNoteBtn);
+		Button newNoteBtn = (Button) findViewById(R.id.Main_NewNoteBtn);
 		newNoteBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -36,7 +36,7 @@ public class NoteDroid extends Activity {
             }          
         });
 		
-		ImageButton preferencesBtn = (ImageButton) findViewById(R.id.Main_ViewPreferencesBtn);
+		Button preferencesBtn = (Button) findViewById(R.id.Main_ViewPreferencesBtn);
 		preferencesBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
