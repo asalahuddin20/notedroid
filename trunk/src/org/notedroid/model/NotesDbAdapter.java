@@ -167,41 +167,5 @@ public class NotesDbAdapter {
     		return null;
     	}
     }
-    
-    /*
-    public int getTypeById(long rowId) {
-    	Cursor note = mDb.query(true, DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
-    	
-    	if (note != null) {
-    		note.moveToFirst();
-    		
-    		int result = note.getInt(note.getColumnIndexOrThrow(KEY_TYPE));
-    		
-    		note.close();
-    		
-    		return result;
-    		
-        } else {
-        	return TYPE_NOTE;
-        }
-    }    
-    
-    public int getParentById(long rowId) {
-    	Cursor note = mDb.query(true, DATABASE_TABLE, new String[] {KEY_PARENTID}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
-    	
-    	if (note != null) {
-    		note.moveToFirst();
-    		
-    		int result = note.getInt(note.getColumnIndexOrThrow(KEY_PARENTID));
-    		
-    		note.close();
-    		
-    		return result;
-    		
-    	} else {
-    		return -1;
-    	}
-    }
-    */
 
 }
