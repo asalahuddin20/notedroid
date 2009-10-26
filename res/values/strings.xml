@@ -39,7 +39,13 @@
 <string name="Main.Preferences">Preferences</string>
 <string name="Main.About">About</string>
 
-<string name="DATE_FORMAT_ISO8601">"yyyy-MM-dd'T'HH:mm:ss.SSS"</string>
+<string name="DATE_FORMAT_ISO8601">yyyy-MM-dd\'T\'HH:mm:ss.SSS</string>
+
+<string name="PreferenceSortCategoryTitle">Sort options</string>
+<string name="PreferenceDisplayCategoryTitle">Display options</string>
+
+<string name="PreferenceDateFormatTitle">Date-time format</string>
+<string name="PreferenceDateFormatSummary">specify how dates and times are displayed.</string>
 
 <string name="PreferenceSortTitle">Sort mode</string>
 <string name="PreferenceSortSummary">Specify how notes and category are sorted in the notes list view.</string>

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory android:title="@string/PreferenceSortCategoryTitle">
 <ListPreference
 			android:title="@string/PreferenceSortTitle"
 			android:summary="@string/PreferenceSortSummary"
@@ -7,4 +8,12 @@
 			android:defaultValue="asc"
 			android:entries="@array/PreferencesSort"
 			android:entryValues="@array/PreferencesSortValues" />
+</PreferenceCategory>
+<PreferenceCategory android:title="@string/PreferenceDisplayCategoryTitle">
+<EditTextPreference 
+			android:title="@string/PreferenceDateFormatTitle"
+			android:summary="@string/PreferenceDateFormatSummary"
+			android:key="dateFormatPreference"
+			android:defaultValue="@string/DATE_FORMAT_ISO8601" />
+</PreferenceCategory>
 </PreferenceScreen>
