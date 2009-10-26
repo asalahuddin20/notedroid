@@ -38,8 +38,8 @@ public class ListDbAdapter extends SimpleCursorAdapter {
 		ImageView image = (ImageView) superView.findViewById(R.id.notesrow_Icon);
 		
 		// Set the correct image.
-		int type = mDbHelper.getTypeById(id);		
-		if (type == NotesDbAdapter.TYPE_FOLDER) {
+		int type = mDbHelper.getNoteById(id).getType();
+		if (type == Note.TYPE_FOLDER) {
 			image.setImageBitmap(mFolderIcon);
 		} else {
 			image.setImageBitmap(mNoteIcon);

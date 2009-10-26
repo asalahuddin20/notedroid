@@ -1,6 +1,7 @@
 package org.notedroid.model;
 
 import org.notedroid.preferences.PreferencesConstants;
+import org.notedroid.utils.DateUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -18,9 +19,8 @@ public class NotesDbAdapter {
     public static final String KEY_TYPE = "type";
     public static final String KEY_PARENTID = "parentid";
     public static final String KEY_ROWID = "_id";
-
-    public static final int TYPE_NOTE = 0;
-    public static final int TYPE_FOLDER = 1;
+    public static final String KEY_CREATION_DATE = "creation_date";
+    public static final String KEY_MODIFICATION_DATE = "modification_date";
     
     private static final String TAG = "NotesDbAdapter";
     private DatabaseHelper mDbHelper;
@@ -34,6 +34,8 @@ public class NotesDbAdapter {
     			KEY_ROWID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
     			KEY_PARENTID + " INTEGER DEFAULT -1, " + 
     			KEY_TYPE + " INTEGER, " +
+    			KEY_CREATION_DATE + " TEXT, " +
+    			KEY_MODIFICATION_DATE + " TEXT, " +
     			KEY_TITLE + " TEXT NOT NULL, " + 
     			KEY_BODY + " TEXT);";    
     
@@ -76,8 +78,10 @@ public class NotesDbAdapter {
     
     public long createNote(long parentId, String title, String body) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_TYPE, TYPE_NOTE);
+        initialValues.put(KEY_TYPE, Note.TYPE_NOTE);
         initialValues.put(KEY_PARENTID, parentId);
+        initialValues.put(KEY_CREATION_DATE, DateUtils.getNow(mCtx));
+        initialValues.put(KEY_MODIFICATION_DATE, DateUtils.getNow(mCtx));
         initialValues.put(KEY_TITLE, title);
         initialValues.put(KEY_BODY, body);
 
@@ -86,9 +90,11 @@ public class NotesDbAdapter {
     
     public long createFolder(String title, long parentId) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_TYPE, TYPE_FOLDER);
-        initialValues.put(KEY_TITLE, title);
+        initialValues.put(KEY_TYPE, Note.TYPE_FOLDER);
         initialValues.put(KEY_PARENTID, parentId);
+        initialValues.put(KEY_CREATION_DATE, DateUtils.getNow(mCtx));
+        initialValues.put(KEY_MODIFICATION_DATE, DateUtils.getNow(mCtx));
+        initialValues.put(KEY_TITLE, title);        
 
         return mDb.insert(DATABASE_TABLE, null, initialValues);
     }
@@ -121,6 +127,7 @@ public class NotesDbAdapter {
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
         args.put(KEY_BODY, body);
+        args.put(KEY_MODIFICATION_DATE, DateUtils.getNow(mCtx));
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -128,6 +135,7 @@ public class NotesDbAdapter {
     public boolean updateFolder(long rowId, String title) {
     	ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
+        args.put(KEY_MODIFICATION_DATE, DateUtils.getNow(mCtx));
         
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -136,6 +144,31 @@ public class NotesDbAdapter {
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
     
+    public Note getNoteById(long rowId) {
+    	Cursor note = mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID, KEY_PARENTID, KEY_TYPE, KEY_CREATION_DATE, KEY_MODIFICATION_DATE, KEY_TITLE, KEY_BODY},
+    			KEY_ROWID + "=" + rowId, null, null, null, null, null);
+    	
+    	if (note != null) {
+    		note.moveToFirst();
+    		
+    		Note result = new Note(note.getLong(note.getColumnIndexOrThrow(KEY_ROWID)),
+    								note.getLong(note.getColumnIndexOrThrow(KEY_PARENTID)),
+    								note.getInt(note.getColumnIndexOrThrow(KEY_TYPE)),
+    								DateUtils.convertFromDatabase(mCtx, note.getString(note.getColumnIndexOrThrow(KEY_CREATION_DATE))),
+    								DateUtils.convertFromDatabase(mCtx, note.getString(note.getColumnIndexOrThrow(KEY_MODIFICATION_DATE))),
+    								note.getString(note.getColumnIndexOrThrow(KEY_TITLE)),
+    								note.getString(note.getColumnIndexOrThrow(KEY_BODY)));
+    		
+    		note.close();
+    		
+    		return result;
+    		
+    	} else {
+    		return null;
+    	}
+    }
+    
+    /*
     public int getTypeById(long rowId) {
     	Cursor note = mDb.query(true, DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
     	
@@ -151,7 +184,7 @@ public class NotesDbAdapter {
         } else {
         	return TYPE_NOTE;
         }
-    }
+    }    
     
     public int getParentById(long rowId) {
     	Cursor note = mDb.query(true, DATABASE_TABLE, new String[] {KEY_PARENTID}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
@@ -169,5 +202,6 @@ public class NotesDbAdapter {
     		return -1;
     	}
     }
+    */
 
 }

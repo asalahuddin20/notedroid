@@ -1,9 +1,12 @@
 package org.notedroid.activities;
 
 import org.notedroid.R;
+import org.notedroid.dialogs.PropertiesDialog;
 import org.notedroid.model.ListDbAdapter;
+import org.notedroid.model.Note;
 import org.notedroid.model.NotesDbAdapter;
 
+import android.app.Dialog;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -29,10 +32,13 @@ public class NoteList extends ListActivity {
     private static final int INSERT_FOLDER_ID = Menu.FIRST + 2;
     private static final int EDIT_NAME_ID = Menu.FIRST + 3;
     private static final int MOVE_FOLDER_UP_ID = Menu.FIRST + 4;
+    private static final int SHOW_PROPERTIES_ID = Menu.FIRST + 5;
 	
 	private NotesDbAdapter mDbHelper;
 	
 	private long mCurrentParentId = -1;
+	
+	private long mCurrentClickedId = -1;
 	
     /** Called when the activity is first created. */
     @Override
@@ -98,7 +104,8 @@ public class NoteList extends ListActivity {
 	
 	private boolean doMoveUp() {
 		if (mCurrentParentId != -1) {
-    		mCurrentParentId = mDbHelper.getParentById(mCurrentParentId);
+    		//mCurrentParentId = mDbHelper.getParentById(mCurrentParentId);
+			mCurrentParentId = mDbHelper.getNoteById(mCurrentParentId).getParentId();
     		fillData();
     		return true;
     	} else {
@@ -109,11 +116,10 @@ public class NoteList extends ListActivity {
     @Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-		
-		MenuItem item;
-		item = menu.add(0, EDIT_NAME_ID, 0, R.string.menu_edit_name);
-        item = menu.add(0, DELETE_NOTE_ID, 0, R.string.menu_delete);
-        item.setIcon(R.drawable.delete32);
+				
+		menu.add(0, EDIT_NAME_ID, 0, R.string.menu_edit_name);
+        menu.add(0, DELETE_NOTE_ID, 0, R.string.menu_delete);
+        menu.add(0, SHOW_PROPERTIES_ID, 0, R.string.menu_show_properties);
 	}
     
     @Override
@@ -131,6 +137,11 @@ public class NoteList extends ListActivity {
 	        mDbHelper.deleteNote(info.id);
 	        fillData();
 	        return true;
+	    case SHOW_PROPERTIES_ID:
+	    	info = (AdapterContextMenuInfo) item.getMenuInfo();
+	    	mCurrentClickedId = info.id;
+	    	showDialog(SHOW_PROPERTIES_ID);
+	    	return true;
 		}
 		return super.onContextItemSelected(item);
     }
@@ -139,14 +150,15 @@ public class NoteList extends ListActivity {
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         
-        int type = mDbHelper.getTypeById(id);
 
-        if (type == NotesDbAdapter.TYPE_NOTE) {
+        int type = mDbHelper.getNoteById(id).getType();
+
+        if (type == Note.TYPE_NOTE) {
         	Intent i = new Intent(this, NoteEditor.class);
         	i.putExtra(NotesDbAdapter.KEY_ROWID, id);
         	i.putExtra(NoteEditor.NOTEEDITOR_MODE, NoteEditor.NOTEEDITOR_MODE_SHOW);
         	startActivityForResult(i, ACTIVITY_EDIT_NOTE);
-        } else if (type == NotesDbAdapter.TYPE_FOLDER) {
+        } else if (type == Note.TYPE_FOLDER) {
         	mCurrentParentId = id;
         	fillData();
         }
@@ -193,6 +205,26 @@ public class NoteList extends ListActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         fillData();
+    }
+    
+    @Override
+    protected Dialog onCreateDialog(int id) {
+		Dialog dialog = null;
+	    switch(id) {
+	    case SHOW_PROPERTIES_ID:
+	    	dialog = new PropertiesDialog(this);
+	    	break;
+	    }
+	    return dialog;
+	}
+    
+    @Override
+    protected void onPrepareDialog(final int id, final Dialog dialog) {
+    	 switch (id) {
+    	 case SHOW_PROPERTIES_ID:
+    		 ((PropertiesDialog) dialog).prepareDialog(mDbHelper, mCurrentClickedId);
+    		 break;
+    	 }
     }
 
 }
