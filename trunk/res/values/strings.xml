@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">NoteDroid</string>
-    <string name="NoteList.NoNotes">No notes yet!</string>
+<string name="app_name">NoteDroid</string>
+
+<string name="NoteList.NoNotes">No notes yet!</string>
 <string name="menu_create_note">New note</string>
 <string name="NoteEditor.NoteTitle">Title:</string>
 
@@ -12,20 +13,33 @@
 <string name="AboutDialog.Text2">Text2</string>
 <string name="AboutDialog.CloseBtn">Close</string>
 
+<string name="PropertiesDialog.Title">Properties</string>
+<string name="PropertiesDialog.Name">Name:</string>
+<string name="PropertiesDialog.Type">Type:</string>
+<string name="PropertiesDialog.TypeNote">Note</string>
+<string name="PropertiesDialog.TypeFolder">Folder</string>
+<string name="PropertiesDialog.CreationDate">Creation date:</string>
+<string name="PropertiesDialog.ModificationDate">Modification date:</string>
+<string name="PropertiesDialog.CloseBtn">Close</string>
+
 <string name="NoteEditor.ButtonClose">Close</string>
 <string name="NoteEditor.ButtonSave">Save</string>
-<string name="menu_delete">Delete</string>
 <string name="NameEditor.NameLabel">Name:</string>
 <string name="NameEditor.SaveButton">Save</string>
 <string name="NameEditor.CancelButton">Cancel</string>
+
+<string name="menu_delete">Delete</string>
 <string name="menu_create_folder">New folder</string>
 <string name="menu_edit_name">Edit name</string>
 <string name="menu_move_folder_up">Parent folder</string>
+<string name="menu_show_properties">Properties...</string>
 
 <string name="Main.ViewNotes">View notes</string>
 <string name="Main.NewNote">New note</string>
 <string name="Main.Preferences">Preferences</string>
 <string name="Main.About">About</string>
+
+<string name="DATE_FORMAT_ISO8601">"yyyy-MM-dd'T'HH:mm:ss.SSS"</string>
 
 <string name="PreferenceSortTitle">Sort mode</string>
 <string name="PreferenceSortSummary">Specify how notes and category are sorted in the notes list view.</string>

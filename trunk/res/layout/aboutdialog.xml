@@ -4,5 +4,5 @@
   android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="fill_parent">
 <TextView android:text="@+id/TextView01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/AboutDialog.Text1" android:layout_margin="5px"></TextView>
 <TextView android:text="@+id/TextView02" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/AboutDialog.Text2" android:layout_margin="5px"></TextView>
-<Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/AboutDialog.CloseBtn" android:id="@+id/AboutDialog.CloseBtn" android:layout_margin="10px"></Button>
+<Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:text="@string/AboutDialog.CloseBtn" android:id="@+id/AboutDialog.CloseBtn" android:layout_marginBottom="10px" android:layout_marginLeft="10px" android:layout_marginRight="10px" android:layout_marginTop="25px"></Button>
 </LinearLayout>
