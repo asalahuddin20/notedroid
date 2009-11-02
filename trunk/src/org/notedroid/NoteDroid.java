@@ -1,9 +1,9 @@
 package org.notedroid;
 
-import org.notedroid.activities.NoteEditor;
-import org.notedroid.activities.NoteList;
-import org.notedroid.activities.PreferencesScreen;
 import org.notedroid.dialogs.AboutDialog;
+import org.notedroid.gui.activities.NoteEditor;
+import org.notedroid.gui.activities.NoteList;
+import org.notedroid.gui.activities.PreferencesScreen;
 import org.notedroid.model.NotesDbAdapter;
 import android.app.Activity;
 import android.app.Dialog;

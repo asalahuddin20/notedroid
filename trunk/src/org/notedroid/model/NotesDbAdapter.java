@@ -100,13 +100,29 @@ public class NotesDbAdapter {
     }
     
     public Cursor fetchNotesByParent(long parentId) {
-    	String sortMode = PreferenceManager.getDefaultSharedPreferences(mCtx).getString(PreferencesConstants.SORT_MODE, PreferencesConstants.SORT_MODE_ASC);
+    	String sortMode = PreferenceManager.getDefaultSharedPreferences(mCtx).getString(PreferencesConstants.SORT_MODE, PreferencesConstants.SORT_MODE_NAME);
+    	String sortDirection = PreferenceManager.getDefaultSharedPreferences(mCtx).getString(PreferencesConstants.SORT_DIRECTION, PreferencesConstants.SORT_DIRECTION_ASC);
     	
-    	if (sortMode.equals(PreferencesConstants.SORT_MODE_DESC)) {
-    		return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE}, KEY_PARENTID + "=" + parentId, null, null, null, KEY_TITLE + " DESC");
+    	String sortDirectionValue;
+    	String sortFieldValue;
+    	
+    	if (sortDirection.equals(PreferencesConstants.SORT_DIRECTION_DESC)) {
+    		sortDirectionValue = "DESC";    		
     	} else {
-    		return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE}, KEY_PARENTID + "=" + parentId, null, null, null, KEY_TITLE + " ASC");
+    		sortDirectionValue = "ASC";    		
     	}
+    	
+    	if (sortMode.equals(PreferencesConstants.SORT_MODE_NAME)) {
+    		sortFieldValue = KEY_TITLE;
+    	} else if (sortMode.equals(PreferencesConstants.SORT_MODE_MODIFICATION_DATE)) {
+    		sortFieldValue = KEY_MODIFICATION_DATE;
+    	} else if (sortMode.equals(PreferencesConstants.SORT_MODE_CREATION_DATE)) {
+    		sortFieldValue = KEY_CREATION_DATE;
+    	} else {
+    		sortFieldValue = KEY_TITLE;
+    	}    	    	
+    	
+    	return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_TITLE}, KEY_PARENTID + "=" + parentId, null, null, null, sortFieldValue + " " + sortDirectionValue);
     }
     
     public Cursor fetchNote(long rowId) throws SQLException {
