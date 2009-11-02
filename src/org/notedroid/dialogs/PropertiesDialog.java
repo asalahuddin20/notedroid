@@ -32,10 +32,10 @@ public class PropertiesDialog extends Dialog {
 		TextView text2 = (TextView) this.findViewById(R.id.PropertiesDialog_Text2);
 		switch (note.getType()) {
 		case Note.TYPE_NOTE:
-			text2.setText(mCtx.getString(R.string.PropertiesDialog_Type) + " " + mCtx.getString(R.string.PropertiesDialog_TypeNote));
+			text2.setText(mCtx.getString(R.string.PropertiesDialog_Type) + " " + mCtx.getString(R.string.Commons_TypeNote));
 			break;
 		case Note.TYPE_FOLDER:
-			text2.setText(mCtx.getString(R.string.PropertiesDialog_Type) + " " + mCtx.getString(R.string.PropertiesDialog_TypeFolder));
+			text2.setText(mCtx.getString(R.string.PropertiesDialog_Type) + " " + mCtx.getString(R.string.Commons_TypeFolder));
 			break;
 		}		
 		

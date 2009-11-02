@@ -4,23 +4,35 @@ import org.notedroid.R;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class AboutDialog extends Dialog {
+	
+	private Context mCtxt;
 
 	public AboutDialog(Context context) {
 		super(context);
+		
+		mCtxt = context;
+		
 		setContentView(R.layout.aboutdialog);
 		
-		setTitle(context.getString(R.string.AboutDialog_Title) + " " + context.getString(R.string.app_name));
+		setTitle(mCtxt.getString(R.string.AboutDialog_Title) + " " + mCtxt.getString(R.string.app_name));
 		
-		TextView text1 = (TextView) this.findViewById(R.id.AboutDialog_Text1);
-		text1.setText(context.getString(R.string.AboutDialog_Text1) + " " + context.getString(R.string.AboutDialog_Version));
+		TextView versionText = (TextView) this.findViewById(R.id.AboutDialog_VersionText);
+		versionText.setText(mCtxt.getString(R.string.AboutDialog_VersionText) + " " + getVersion());
 		
-		TextView text2 = (TextView) this.findViewById(R.id.AboutDialog_Text2);
-		text2.setText(R.string.AboutDialog_Text2);
+		TextView licenseText = (TextView) this.findViewById(R.id.AboutDialog_LicenseText);
+		licenseText.setText(mCtxt.getString(R.string.AboutDialog_LicenseText) + " " + mCtxt.getString(R.string.AboutDialog_LicenseTextValue));
+		
+		TextView urlText = (TextView) this.findViewById(R.id.AboutDialog_UrlText);
+		urlText.setText(mCtxt.getString(R.string.AboutDialog_UrlTextValue));				
 		
 		Button closeBtn = (Button) this.findViewById(R.id.AboutDialog_CloseBtn);
 		closeBtn.setOnClickListener(new View.OnClickListener() {
@@ -31,6 +43,22 @@ public class AboutDialog extends Dialog {
           
         });
 
+	}
+	
+	private String getVersion() {		
+		String result = "";		
+        try {
+        	
+        	PackageManager manager = mCtxt.getPackageManager();
+			PackageInfo info = manager.getPackageInfo(mCtxt.getPackageName(), 0);
+			
+			result = info.versionName;
+			
+		} catch (NameNotFoundException e) {
+			Log.w(AboutDialog.class.toString(), "Unable to get application version: " + e.getMessage());
+		}
+		
+		return result;
 	}
 
 }
