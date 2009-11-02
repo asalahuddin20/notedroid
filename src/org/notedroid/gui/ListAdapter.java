@@ -1,6 +1,8 @@
-package org.notedroid.model;
+package org.notedroid.gui;
 
 import org.notedroid.R;
+import org.notedroid.model.Note;
+import org.notedroid.model.NotesDbAdapter;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -11,14 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SimpleCursorAdapter;
 
-public class ListDbAdapter extends SimpleCursorAdapter {
+public class ListAdapter extends SimpleCursorAdapter {
 
 	private Bitmap mFolderIcon;
 	private Bitmap mNoteIcon;
 	
 	private NotesDbAdapter mDbHelper;
 	
-	public ListDbAdapter(Context context, int layout, Cursor c, String[] from, int[] to, NotesDbAdapter dbHelper) {
+	public ListAdapter(Context context, int layout, Cursor c, String[] from, int[] to, NotesDbAdapter dbHelper) {
 		super(context, layout, c, from, to);
 		
 		mDbHelper = dbHelper;

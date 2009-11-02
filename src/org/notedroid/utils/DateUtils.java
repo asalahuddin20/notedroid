@@ -1,22 +1,16 @@
 package org.notedroid.utils;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.notedroid.R;
-import org.notedroid.preferences.PreferencesConstants;
-
 import android.content.Context;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class DateUtils {
-	
-	private static String getDisplayFormat(Context context) {
-		return PreferenceManager.getDefaultSharedPreferences(context).getString(PreferencesConstants.DATE_DISPLAY_FORMAT, PreferencesConstants.DATE_DISPLAY_DEFAULT_VALUE);
-	}
 	
 	private static String getDefaultFormat(Context context) {
 		return context.getResources().getString(R.string.DATE_FORMAT_ISO8601);
@@ -30,14 +24,7 @@ public class DateUtils {
 	} 
 	
 	public static String getDisplayDate(Context context, Date date) {
-		SimpleDateFormat sdf;
-		
-		try {
-			sdf = new SimpleDateFormat(getDisplayFormat(context));
-		} catch (Exception e) {
-			sdf = new SimpleDateFormat(getDefaultFormat(context));
-		}
-		return sdf.format(date);
+		return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date);
 	}
 	
 	public static Date convertFromDatabase(Context context, String date) {
