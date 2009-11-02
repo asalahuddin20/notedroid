@@ -6,8 +6,10 @@ import org.notedroid.gui.ListAdapter;
 import org.notedroid.model.Note;
 import org.notedroid.model.NotesDbAdapter;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -58,13 +60,13 @@ public class NoteList extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	super.onCreateOptionsMenu(menu);
     	MenuItem item;
-        item = menu.add(0, MENU_INSERT_NOTE_ID, 0, R.string.menu_create_note);
+        item = menu.add(0, MENU_INSERT_NOTE_ID, 0, R.string.NoteList_MenuCreateNote);
         item.setIcon(R.drawable.newnote32);
         
-        item = menu.add(0, MENU_INSERT_FOLDER_ID, 0, R.string.menu_create_folder);
+        item = menu.add(0, MENU_INSERT_FOLDER_ID, 0, R.string.NoteList_MenuCreateFolder);
         item.setIcon(R.drawable.newfolder32);
         
-        item = menu.add(0, MENU_MOVE_FOLDER_UP_ID, 0, R.string.menu_move_folder_up);
+        item = menu.add(0, MENU_MOVE_FOLDER_UP_ID, 0, R.string.NoteList_MenuMoveUp);
         item.setIcon(R.drawable.moveup32);        
         
         return true;
@@ -117,9 +119,9 @@ public class NoteList extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 				
-		menu.add(0, MENU_EDIT_NAME_ID, 0, R.string.menu_edit_name);
-        menu.add(0, MENU_DELETE_NOTE_ID, 0, R.string.menu_delete);
-        menu.add(0, MENU_SHOW_PROPERTIES_ID, 0, R.string.menu_show_properties);
+		menu.add(0, MENU_EDIT_NAME_ID, 0, R.string.NoteList_MenuEditName);
+        menu.add(0, MENU_DELETE_NOTE_ID, 0, R.string.NoteList_MenuDelete);
+        menu.add(0, MENU_SHOW_PROPERTIES_ID, 0, R.string.NoteList_MenuShowProperties);
 	}
     
     @Override
@@ -134,8 +136,7 @@ public class NoteList extends ListActivity {
     		return true;
     	case MENU_DELETE_NOTE_ID:
     		info = (AdapterContextMenuInfo) item.getMenuInfo();
-	        mDbHelper.deleteNote(info.id);
-	        fillData();
+    		doDeleteNote(info.id);	        
 	        return true;
 	    case MENU_SHOW_PROPERTIES_ID:
 	    	info = (AdapterContextMenuInfo) item.getMenuInfo();
@@ -144,6 +145,34 @@ public class NoteList extends ListActivity {
 	    	return true;
 		}
 		return super.onContextItemSelected(item);
+    }
+    
+    private void doDeleteNote(final long rowId) {
+    	String message;
+    	int noteType = mDbHelper.getNoteType(rowId);
+    	if (noteType == Note.TYPE_FOLDER) {
+    		message = this.getString(R.string.NoteList_DeleteFolderQuestion);
+    	} else {
+    		message = this.getString(R.string.NoteList_DeleteNoteQuestion);
+    	}
+    	
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage(message);
+    	builder.setCancelable(false);
+    	builder.setPositiveButton(this.getString(R.string.Commons_Yes), new DialogInterface.OnClickListener() {
+    		public void onClick(DialogInterface dialog, int id) {
+    			mDbHelper.deleteNote(rowId);
+    			fillData();
+    		}
+    	});
+    	builder.setNegativeButton(this.getString(R.string.Commons_No), new DialogInterface.OnClickListener() {
+    		public void onClick(DialogInterface dialog, int id) {
+    			dialog.cancel();
+    		}
+    	});
+
+    	builder.create().show();
+    	
     }
     
     @Override

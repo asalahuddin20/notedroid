@@ -1,5 +1,9 @@
 package org.notedroid.model;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.notedroid.preferences.PreferencesConstants;
 import org.notedroid.utils.DateUtils;
 
@@ -139,6 +143,23 @@ public class NotesDbAdapter {
 
     }
     
+    public int getNoteType(long rowId) {
+    	
+    	int result = Note.TYPE_NOTE;
+    	
+    	Cursor mCursor = mDb.query(true, DATABASE_TABLE, new String[] {KEY_TYPE}, KEY_ROWID + "=" + rowId, null, null, null, null, null);
+    	
+    	if (mCursor != null) {
+    		mCursor.moveToFirst();
+    		
+    		result = mCursor.getInt(mCursor.getColumnIndex(KEY_TYPE));
+    		
+    		mCursor.close();
+    	}
+    	
+    	return result;
+    }
+    
     public boolean updateNote(long rowId, String title, String body) {
         ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
@@ -156,7 +177,33 @@ public class NotesDbAdapter {
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
     
+    private List<Integer> getChildren(long parentId) {
+    	List<Integer> result = new ArrayList<Integer>();
+    	
+    	Cursor mCursor = mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID}, KEY_PARENTID + "=" + parentId, null, null, null, null, null);
+    	
+    	if (mCursor != null) {
+    		while (mCursor.moveToNext()) {
+    			result.add(mCursor.getInt(mCursor.getColumnIndex(KEY_ROWID)));
+    		}
+    		
+    		mCursor.close();
+    	}
+    	
+    	return result;
+    }
+    
     public boolean deleteNote(long rowId) {
+    	
+    	int noteType = getNoteType(rowId);
+    	
+    	if (noteType == Note.TYPE_FOLDER) {
+    		Iterator<Integer> iter = getChildren(rowId).iterator();
+    		while (iter.hasNext()) {
+    			deleteNote(iter.next());
+    		}
+    	}
+    	
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
     

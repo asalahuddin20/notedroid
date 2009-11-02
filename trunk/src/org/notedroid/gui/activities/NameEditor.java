@@ -1,14 +1,16 @@
 package org.notedroid.gui.activities;
 
 import org.notedroid.R;
+import org.notedroid.model.Note;
 import org.notedroid.model.NotesDbAdapter;
+import org.notedroid.utils.DateUtils;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class NameEditor extends Activity {
 	
@@ -16,6 +18,10 @@ public class NameEditor extends Activity {
     private static final int MENU_CANCEL = Menu.FIRST + 1;
 	
 	private EditText mNameText;
+	private TextView mTypeText;
+	private TextView mModificationDateText;
+	private TextView mCreationDateText;
+	
 	private Long mRowId;
 	private Long mParentId;
 	
@@ -47,6 +53,10 @@ public class NameEditor extends Activity {
         		mParentId = null;
         	}
         }     
+        
+        mTypeText = (TextView) findViewById(R.id.NameEditor_TypeText);
+        mModificationDateText = (TextView) findViewById(R.id.NameEditor_ModificationDateText);
+        mCreationDateText = (TextView) findViewById(R.id.NameEditor_CreationDateText);
         
         populateFields();
     }
@@ -115,11 +125,23 @@ public class NameEditor extends Activity {
     
     private void populateFields() {
         if (mRowId != -1) {
-            Cursor note = mDbHelper.fetchNote(mRowId);
-            startManagingCursor(note);
+        	
+            Note note = mDbHelper.getNoteById(mRowId);
             
-            mNameText.setText(note.getString(
-    	            note.getColumnIndexOrThrow(NotesDbAdapter.KEY_TITLE)));            
+            mNameText.setText(note.getTitle());
+            
+            switch (note.getType()) {
+            case Note.TYPE_FOLDER:
+            	mTypeText.setText(this.getString(R.string.NameEditor_TypeText) + " " + this.getString(R.string.Commons_TypeFolder));
+            	break;
+            case Note.TYPE_NOTE:
+            	mTypeText.setText(this.getString(R.string.NameEditor_TypeText) + " " + this.getString(R.string.Commons_TypeNote));
+            	break;
+            }
+            
+            mModificationDateText.setText(this.getString(R.string.NameEditor_ModificationDateText) + " " + DateUtils.getDisplayDate(this, note.getModificationDate()));
+            mCreationDateText.setText(this.getString(R.string.NameEditor_CreationDateText) + " " + DateUtils.getDisplayDate(this, note.getCreationDate()));
+            
         }
     }
     
