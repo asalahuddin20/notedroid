@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceCategory android:title="@string/PreferenceSortCategoryTitle">
+<ListPreference
+			android:title="@string/PreferenceSortModeTitle"
+			android:summary="@string/PreferenceSortModeSummary"
+			android:key="sortModePreference"
+			android:defaultValue="name"
+			android:entries="@array/PreferenceSortMode"
+			android:entryValues="@array/PreferenceSortModeValues" />
+<ListPreference
+			android:title="@string/PreferenceDirectionTitle"
+			android:summary="@string/PreferenceDirectionSummary"
+			android:key="sortDirectionPreference"
+			android:defaultValue="asc"
+			android:entries="@array/PreferenceSortDirection"
+			android:entryValues="@array/PreferenceSortDirectionValues" />
+</PreferenceCategory>
+</PreferenceScreen>
