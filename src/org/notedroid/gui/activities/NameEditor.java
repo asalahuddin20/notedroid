@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,6 +18,7 @@ public class NameEditor extends Activity {
 	private static final int MENU_SAVE = Menu.FIRST;
     private static final int MENU_CANCEL = Menu.FIRST + 1;
 	
+    private TextView mTitleText;
 	private EditText mNameText;
 	private TextView mTypeText;
 	private TextView mModificationDateText;
@@ -36,8 +38,9 @@ public class NameEditor extends Activity {
         mDbHelper = new NotesDbAdapter(this);
         mDbHelper.open();
         
-        setContentView(R.layout.nameeditor);
+        setContentView(R.layout.nameeditor);                
         
+        mTitleText = (TextView) findViewById(R.id.NameEditor_TitleText);
         mNameText = (EditText) findViewById(R.id.NameEditor_NameEditText);
         
         if (savedInstanceState != null) {
@@ -126,6 +129,8 @@ public class NameEditor extends Activity {
     private void populateFields() {
         if (mRowId != -1) {
         	
+        	mTitleText.setText(R.string.NameEditor_TitleTextEdit);
+        	
             Note note = mDbHelper.getNoteById(mRowId);
             
             mNameText.setText(note.getTitle());
@@ -138,10 +143,15 @@ public class NameEditor extends Activity {
             	mTypeText.setText(this.getString(R.string.NameEditor_TypeText) + " " + this.getString(R.string.Commons_TypeNote));
             	break;
             }
-            
+                        
             mModificationDateText.setText(this.getString(R.string.NameEditor_ModificationDateText) + " " + DateUtils.getDisplayDate(this, note.getModificationDate()));
             mCreationDateText.setText(this.getString(R.string.NameEditor_CreationDateText) + " " + DateUtils.getDisplayDate(this, note.getCreationDate()));
             
+        } else {
+        	mTitleText.setText(R.string.NameEditor_TitleTextCreateFolder);
+        	mTypeText.setVisibility(View.GONE);
+        	mModificationDateText.setVisibility(View.GONE);
+        	mCreationDateText.setVisibility(View.GONE);
         }
     }
     
