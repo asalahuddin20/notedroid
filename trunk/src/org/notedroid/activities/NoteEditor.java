@@ -6,16 +6,19 @@ import org.notedroid.model.NotesDbAdapter;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.EditText;
 
 public class NoteEditor extends Activity {
 	
 	public static final String NOTEEDITOR_MODE = "NOTEEDITOR_MODE";
 	public static final String NOTEEDITOR_MODE_SHOW = "NOTEEDITOR_MODE_SHOW";
-	public static final String NOTEEDITOR_MODE_EDIT = "NOTEEDITOR_MODE_EDIT";		
+	public static final String NOTEEDITOR_MODE_EDIT = "NOTEEDITOR_MODE_EDIT";	
+	
+	private static final int MENU_SAVE = Menu.FIRST;
+    private static final int MENU_CANCEL = Menu.FIRST + 1;
 	
 	private EditText mTitleText;
     private EditText mBodyText;
@@ -37,10 +40,7 @@ public class NoteEditor extends Activity {
         setContentView(R.layout.noteeditor);
        
         mTitleText = (EditText) findViewById(R.id.NoteEditor_NoteName);
-        mBodyText = (EditText) findViewById(R.id.NoteEditor_Body);
-      
-        Button saveButton = (Button) findViewById(R.id.NoteEditor_ButtonSave);
-        Button closeButton = (Button) findViewById(R.id.NoteEditor_ButtonClose);  
+        mBodyText = (EditText) findViewById(R.id.NoteEditor_Body);              
 
         if (savedInstanceState != null) {
         	mRowId = savedInstanceState.getLong(NotesDbAdapter.KEY_ROWID);
@@ -65,26 +65,46 @@ public class NoteEditor extends Activity {
         	this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         }
         
-        populateFields();
-       
-        saveButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-            	setResult(RESULT_OK);
-                finish();
-            }
-          
-        });
+        populateFields();               
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	
+    	MenuItem item;
+        item = menu.add(0, MENU_SAVE, 0, R.string.NoteEditor_SaveMenu);
+        item.setIcon(R.drawable.save32);
         
-        closeButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-            	mBoIsCancelled = true;
-            	setResult(RESULT_OK);            	
-                finish();
-            }
-          
-        });
+        item = menu.add(0, MENU_CANCEL, 0, R.string.NoteEditor_CancelMenu);
+        item.setIcon(R.drawable.cancel32);
+    	
+    	return true;
+    }
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    	switch(item.getItemId()) {
+        case MENU_SAVE:
+        	saveAndExit();
+            return true;            
+        case MENU_CANCEL:
+        	exitWithoutSave();
+        	return true;               	
+        }    	
+       
+        return super.onMenuItemSelected(featureId, item);
+    }
+    
+    private void saveAndExit() {
+    	setResult(RESULT_OK);
+        finish();
+    }
+    
+    private void exitWithoutSave() {
+    	mBoIsCancelled = true;
+    	setResult(RESULT_OK);
+        finish();
     }
     
     @Override

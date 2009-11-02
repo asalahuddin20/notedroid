@@ -27,12 +27,12 @@ public class NoteList extends ListActivity {
     private static final int ACTIVITY_CREATE_FOLDER = 2;
     private static final int ACTIVITY_EDIT_NAME = 3;    
     
-    private static final int INSERT_NOTE_ID = Menu.FIRST;
-    private static final int DELETE_NOTE_ID = Menu.FIRST + 1;
-    private static final int INSERT_FOLDER_ID = Menu.FIRST + 2;
-    private static final int EDIT_NAME_ID = Menu.FIRST + 3;
-    private static final int MOVE_FOLDER_UP_ID = Menu.FIRST + 4;
-    private static final int SHOW_PROPERTIES_ID = Menu.FIRST + 5;
+    private static final int MENU_INSERT_NOTE_ID = Menu.FIRST;
+    private static final int MENU_DELETE_NOTE_ID = Menu.FIRST + 1;
+    private static final int MENU_INSERT_FOLDER_ID = Menu.FIRST + 2;
+    private static final int MENU_EDIT_NAME_ID = Menu.FIRST + 3;
+    private static final int MENU_MOVE_FOLDER_UP_ID = Menu.FIRST + 4;
+    private static final int MENU_SHOW_PROPERTIES_ID = Menu.FIRST + 5;
 	
 	private NotesDbAdapter mDbHelper;
 	
@@ -58,13 +58,13 @@ public class NoteList extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	super.onCreateOptionsMenu(menu);
     	MenuItem item;
-        item = menu.add(0, INSERT_NOTE_ID, 0, R.string.menu_create_note);
+        item = menu.add(0, MENU_INSERT_NOTE_ID, 0, R.string.menu_create_note);
         item.setIcon(R.drawable.newnote32);
         
-        item = menu.add(0, INSERT_FOLDER_ID, 0, R.string.menu_create_folder);
+        item = menu.add(0, MENU_INSERT_FOLDER_ID, 0, R.string.menu_create_folder);
         item.setIcon(R.drawable.newfolder32);
         
-        item = menu.add(0, MOVE_FOLDER_UP_ID, 0, R.string.menu_move_folder_up);
+        item = menu.add(0, MENU_MOVE_FOLDER_UP_ID, 0, R.string.menu_move_folder_up);
         item.setIcon(R.drawable.moveup32);        
         
         return true;
@@ -86,13 +86,13 @@ public class NoteList extends ListActivity {
 	@Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
     	switch(item.getItemId()) {
-        case INSERT_NOTE_ID:
+        case MENU_INSERT_NOTE_ID:
             createNote();
             return true;            
-        case INSERT_FOLDER_ID:
+        case MENU_INSERT_FOLDER_ID:
         	createCategory();
         	return true;
-        case MOVE_FOLDER_UP_ID:
+        case MENU_MOVE_FOLDER_UP_ID:
         	if (!doMoveUp()) {
         		finish();
         	}
@@ -117,9 +117,9 @@ public class NoteList extends ListActivity {
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 				
-		menu.add(0, EDIT_NAME_ID, 0, R.string.menu_edit_name);
-        menu.add(0, DELETE_NOTE_ID, 0, R.string.menu_delete);
-        menu.add(0, SHOW_PROPERTIES_ID, 0, R.string.menu_show_properties);
+		menu.add(0, MENU_EDIT_NAME_ID, 0, R.string.menu_edit_name);
+        menu.add(0, MENU_DELETE_NOTE_ID, 0, R.string.menu_delete);
+        menu.add(0, MENU_SHOW_PROPERTIES_ID, 0, R.string.menu_show_properties);
 	}
     
     @Override
@@ -127,20 +127,20 @@ public class NoteList extends ListActivity {
     	AdapterContextMenuInfo info;
     	
     	switch(item.getItemId()) {
-    	case EDIT_NAME_ID:
+    	case MENU_EDIT_NAME_ID:
     		info = (AdapterContextMenuInfo) item.getMenuInfo();
     		editName(info.id);
     		fillData();
     		return true;
-    	case DELETE_NOTE_ID:
+    	case MENU_DELETE_NOTE_ID:
     		info = (AdapterContextMenuInfo) item.getMenuInfo();
 	        mDbHelper.deleteNote(info.id);
 	        fillData();
 	        return true;
-	    case SHOW_PROPERTIES_ID:
+	    case MENU_SHOW_PROPERTIES_ID:
 	    	info = (AdapterContextMenuInfo) item.getMenuInfo();
 	    	mCurrentClickedId = info.id;
-	    	showDialog(SHOW_PROPERTIES_ID);
+	    	showDialog(MENU_SHOW_PROPERTIES_ID);
 	    	return true;
 		}
 		return super.onContextItemSelected(item);
@@ -211,7 +211,7 @@ public class NoteList extends ListActivity {
     protected Dialog onCreateDialog(int id) {
 		Dialog dialog = null;
 	    switch(id) {
-	    case SHOW_PROPERTIES_ID:
+	    case MENU_SHOW_PROPERTIES_ID:
 	    	dialog = new PropertiesDialog(this);
 	    	break;
 	    }
@@ -221,7 +221,7 @@ public class NoteList extends ListActivity {
     @Override
     protected void onPrepareDialog(final int id, final Dialog dialog) {
     	 switch (id) {
-    	 case SHOW_PROPERTIES_ID:
+    	 case MENU_SHOW_PROPERTIES_ID:
     		 ((PropertiesDialog) dialog).prepareDialog(mDbHelper, mCurrentClickedId);
     		 break;
     	 }

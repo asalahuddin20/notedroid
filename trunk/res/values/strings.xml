@@ -39,6 +39,12 @@
 <string name="Main.Preferences">Preferences</string>
 <string name="Main.About">About</string>
 
+<string name="NoteEditor.SaveMenu">Save</string>
+<string name="NoteEditor.CancelMenu">Cancel</string>
+
+<string name="NameEditor.SaveMenu">Save</string>
+<string name="NameEditor.CancelMenu">Cancel</string>
+
 <string name="DATE_FORMAT_ISO8601">yyyy-MM-dd\'T\'HH:mm:ss.SSS</string>
 
 <string name="PreferenceSortCategoryTitle">Sort options</string>
