@@ -92,7 +92,7 @@ public class NoteList extends ListActivity {
             createNote();
             return true;            
         case MENU_INSERT_FOLDER_ID:
-        	createCategory();
+        	createFolder();
         	return true;
         case MENU_MOVE_FOLDER_UP_ID:
         	if (!doMoveUp()) {
@@ -208,7 +208,7 @@ public class NoteList extends ListActivity {
         startActivityForResult(i, ACTIVITY_CREATE_NOTE);
     }
     
-    private void createCategory() {
+    private void createFolder() {
     	Intent i = new Intent(this, NameEditor.class);
     	i.putExtra(NotesDbAdapter.KEY_ROWID, new Long(-1));
     	i.putExtra(NotesDbAdapter.KEY_PARENTID, mCurrentParentId);

@@ -31,12 +31,11 @@
 <string name="PropertiesDialog.ModificationDate">Modification date:</string>
 <string name="PropertiesDialog.CloseBtn">Close</string>
 
-<string name="NoteEditor.ButtonClose">Close</string>
-<string name="NoteEditor.ButtonSave">Save</string>
 <string name="NameEditor.NameLabel">Name:</string>
 <string name="NameEditor.SaveButton">Save</string>
 <string name="NameEditor.CancelButton">Cancel</string>
-<string name="NameEditor.TitleText">Edit name:</string>
+<string name="NameEditor.TitleTextEdit">Edit name:</string>
+<string name="NameEditor.TitleTextCreateFolder">Folder name:</string>
 <string name="NameEditor.TypeText">Type:</string>
 <string name="NameEditor.ModificationDateText">Modification date:</string>
 <string name="NameEditor.CreationDateText">Creation date:</string>
