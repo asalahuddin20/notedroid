@@ -22,8 +22,5 @@
 		android:scrollbars="vertical" android:id="@+id/NoteEditor.Body" android:gravity="top|left" android:inputType="textCapSentences|textMultiLine"/>		
 
 
-	<LinearLayout android:id="@+id/LinearLayout01" android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal">
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/NoteEditor.ButtonSave" android:id="@+id/NoteEditor.ButtonSave"/>
-		<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/NoteEditor.ButtonClose" android:id="@+id/NoteEditor.ButtonClose"></Button>
-</LinearLayout>
+	
 </LinearLayout>

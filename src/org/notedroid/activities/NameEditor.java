@@ -6,11 +6,14 @@ import org.notedroid.model.NotesDbAdapter;
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 
 public class NameEditor extends Activity {
+	
+	private static final int MENU_SAVE = Menu.FIRST;
+    private static final int MENU_CANCEL = Menu.FIRST + 1;
 	
 	private EditText mNameText;
 	private Long mRowId;
@@ -31,9 +34,6 @@ public class NameEditor extends Activity {
         
         mNameText = (EditText) findViewById(R.id.NameEditor_NameEditText);
         
-        Button saveButton = (Button) findViewById(R.id.NameEditor_SaveButton);
-        Button cancelButton = (Button) findViewById(R.id.NameEditor_CancelButton);
-        
         if (savedInstanceState != null) {
         	mRowId = savedInstanceState.getLong(NotesDbAdapter.KEY_ROWID);
         	mParentId = savedInstanceState.getLong(NotesDbAdapter.KEY_PARENTID);
@@ -48,32 +48,53 @@ public class NameEditor extends Activity {
         	}
         }     
         
-        saveButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-            	setResult(RESULT_OK);
-                finish();
-            }
-          
-        });
-        
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-            	mBoIsCancelled = true;
-            	setResult(RESULT_OK);            	
-                finish();
-            }
-          
-        });
-        
         populateFields();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	super.onCreateOptionsMenu(menu);
+    	
+    	MenuItem item;
+        item = menu.add(0, MENU_SAVE, 0, R.string.NameEditor_SaveMenu);
+        item.setIcon(R.drawable.save32);
+        
+        item = menu.add(0, MENU_CANCEL, 0, R.string.NameEditor_CancelMenu);
+        item.setIcon(R.drawable.cancel32);
+    	
+    	return true;
+    }
+    
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    	switch(item.getItemId()) {
+        case MENU_SAVE:
+        	saveAndExit();
+            return true;            
+        case MENU_CANCEL:
+        	exitWithoutSave();
+        	return true;               	
+        }    	
+       
+        return super.onMenuItemSelected(featureId, item);
+    }
+    
+    private void saveAndExit() {
+    	setResult(RESULT_OK);
+        finish();
+    }
+    
+    private void exitWithoutSave() {
+    	mBoIsCancelled = true;
+    	setResult(RESULT_OK);
+        finish();
     }
     
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(NotesDbAdapter.KEY_ROWID, mRowId);
+        outState.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);
     }
     
     @Override
