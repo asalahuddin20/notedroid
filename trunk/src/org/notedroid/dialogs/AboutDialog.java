@@ -23,7 +23,7 @@ public class AboutDialog extends Dialog {
 		
 		setContentView(R.layout.aboutdialog);
 		
-		setTitle(mCtxt.getString(R.string.AboutDialog_Title) + " " + mCtxt.getString(R.string.app_name));
+		setTitle(mCtxt.getString(R.string.AboutDialog_Title) + " " + mCtxt.getString(R.string.Notedroid_ApplicationName));
 		
 		TextView versionText = (TextView) this.findViewById(R.id.AboutDialog_VersionText);
 		versionText.setText(mCtxt.getString(R.string.AboutDialog_VersionText) + " " + getVersion());

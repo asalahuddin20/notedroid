@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-<string name="app_name">NoteDroid</string>
+<string name="Notedroid.ApplicationName">NoteDroid</string>
+<string name="Notedroid.ApplicationDescription">Notedroid is a note-taking application for Android, based on the Android notepad tutorial. </string>
 
 <string name="NoteList.NoNotes">No notes yet!</string>
 <string name="NoteList.MenuDelete">Delete</string>
