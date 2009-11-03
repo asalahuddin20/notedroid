@@ -3,10 +3,12 @@ package org.notedroid.gui.activities;
 import org.notedroid.R;
 import org.notedroid.model.Note;
 import org.notedroid.model.NotesDbAdapter;
+import org.notedroid.utils.ApplicationUtils;
 import org.notedroid.utils.DateUtils;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,8 +19,10 @@ public class NameEditor extends Activity {
 	
 	private static final int MENU_SAVE = Menu.FIRST;
     private static final int MENU_CANCEL = Menu.FIRST + 1;
+    
+    private static final String NAME_EDITOR_CURRENT_TEXT = "NAMEEDITOR_CURRENT_TEXT";
 	
-    private TextView mTitleText;
+    private TextView mTitleLabel;
 	private EditText mNameText;
 	private TextView mTypeText;
 	private TextView mModificationDateText;
@@ -30,6 +34,7 @@ public class NameEditor extends Activity {
 	private NotesDbAdapter mDbHelper;
     
     private boolean mBoIsCancelled = false;
+    private boolean mBoIsManualSave = false;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +45,7 @@ public class NameEditor extends Activity {
         
         setContentView(R.layout.nameeditor);                
         
-        mTitleText = (TextView) findViewById(R.id.NameEditor_TitleText);
+        mTitleLabel = (TextView) findViewById(R.id.NameEditor_TitleText);
         mNameText = (EditText) findViewById(R.id.NameEditor_NameEditText);
         
         if (savedInstanceState != null) {
@@ -50,7 +55,7 @@ public class NameEditor extends Activity {
         	Bundle extras = getIntent().getExtras();
         	if (extras != null) {
         		mRowId = extras.getLong(NotesDbAdapter.KEY_ROWID);
-        		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);
+        		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);        		
         	} else {
         		mRowId = null;
         		mParentId = null;
@@ -60,7 +65,7 @@ public class NameEditor extends Activity {
         mTypeText = (TextView) findViewById(R.id.NameEditor_TypeText);
         mModificationDateText = (TextView) findViewById(R.id.NameEditor_ModificationDateText);
         mCreationDateText = (TextView) findViewById(R.id.NameEditor_CreationDateText);
-        
+                
         populateFields();
     }
     
@@ -93,6 +98,8 @@ public class NameEditor extends Activity {
     }
     
     private void saveAndExit() {
+    	mBoIsManualSave = true;
+    	saveData();
     	setResult(RESULT_OK);
         finish();
     }
@@ -108,12 +115,18 @@ public class NameEditor extends Activity {
         super.onSaveInstanceState(outState);
         outState.putLong(NotesDbAdapter.KEY_ROWID, mRowId);
         outState.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);
+        outState.putString(NAME_EDITOR_CURRENT_TEXT, mNameText.getText().toString());        
     }
     
     @Override
     protected void onPause() {
         super.onPause();
-        saveState();
+        saveData();
+    }
+    
+    @Override
+    protected void onDestroy() {
+    	super.onDestroy();
     }
     
     @Override
@@ -122,17 +135,13 @@ public class NameEditor extends Activity {
         populateFields();
     }
     
-    private String getDefaultCategoryName() {
-    	return "NoName";
-    }
-    
     private void populateFields() {
         if (mRowId != -1) {
         	
-        	mTitleText.setText(R.string.NameEditor_TitleTextEdit);
+        	mTitleLabel.setText(R.string.NameEditor_TitleTextEdit);
         	
             Note note = mDbHelper.getNoteById(mRowId);
-            
+                        
             mNameText.setText(note.getTitle());
             
             switch (note.getType()) {
@@ -147,21 +156,32 @@ public class NameEditor extends Activity {
             mModificationDateText.setText(this.getString(R.string.NameEditor_ModificationDateText) + " " + DateUtils.getDisplayDate(this, note.getModificationDate()));
             mCreationDateText.setText(this.getString(R.string.NameEditor_CreationDateText) + " " + DateUtils.getDisplayDate(this, note.getCreationDate()));
             
-        } else {
-        	mTitleText.setText(R.string.NameEditor_TitleTextCreateFolder);
+        } else {        	
+        	mTitleLabel.setText(R.string.NameEditor_TitleTextCreateFolder);        	        	
+        	
+        	mNameText.setHint(R.string.Commons_NewFolderName);
+        	
         	mTypeText.setVisibility(View.GONE);
         	mModificationDateText.setVisibility(View.GONE);
         	mCreationDateText.setVisibility(View.GONE);
         }
     }
     
-    private void saveState() {
+    @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+    		saveAndExit();
+    	} 
+    	return super.onKeyDown(keyCode, event);
+    }
+    
+    private void saveData() {
     	if (!mBoIsCancelled) {
     		String title = mNameText.getText().toString();
 
     		if ((title == null) || 
     				(title.length() == 0)) {
-    			title = getDefaultCategoryName();
+    			title = this.getString(R.string.Commons_NewFolderName);
     		}
 
     		if (mRowId == -1) {
@@ -170,8 +190,17 @@ public class NameEditor extends Activity {
     				mRowId = id;
     			}
     		} else {
-    			mDbHelper.updateFolder(mRowId, title);
-    		}        
+    			mDbHelper.updateTitle(mRowId, title);
+    		}
+    		
+    		if (mBoIsManualSave) {
+    			if (mDbHelper.getNoteType(mRowId) == Note.TYPE_FOLDER) {
+    				ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_FolderSaved));
+    			} else {
+    				ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_NoteSaved));
+    			}
+    			mBoIsManualSave = false;
+    		}
     	}
     }
         

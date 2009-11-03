@@ -2,10 +2,12 @@ package org.notedroid.gui.activities;
 
 import org.notedroid.R;
 import org.notedroid.model.NotesDbAdapter;
+import org.notedroid.utils.ApplicationUtils;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -29,6 +31,7 @@ public class NoteEditor extends Activity {
     private NotesDbAdapter mDbHelper;
     
     private boolean mBoIsCancelled = false;
+    private boolean mBoIsManualSave = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +100,7 @@ public class NoteEditor extends Activity {
     }
     
     private void saveAndExit() {
+    	mBoIsManualSave = true;
     	setResult(RESULT_OK);
         finish();
     }
@@ -127,8 +131,12 @@ public class NoteEditor extends Activity {
         populateFields();
     }
     
-    private String getDefaultNoteName() {
-    	return "NoName";
+    @Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+    	if (keyCode == KeyEvent.KEYCODE_BACK) {
+    		mBoIsManualSave = true;
+    	} 
+    	return super.onKeyDown(keyCode, event);
     }
     
     private void saveState() {
@@ -138,7 +146,7 @@ public class NoteEditor extends Activity {
 
     		if ((title == null) || 
     				(title.length() == 0)) {
-    			title = getDefaultNoteName();
+    			title = this.getString(R.string.Commons_NewNoteName);
     		}
 
     		if (mRowId == -1) {
@@ -148,7 +156,12 @@ public class NoteEditor extends Activity {
     			}
     		} else {
     			mDbHelper.updateNote(mRowId, title, body);
-    		}        
+    		}
+    		
+    		if (mBoIsManualSave) {
+    			ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_NoteSaved));
+    			mBoIsManualSave = false;
+    		}
     	}
     }
     
@@ -160,6 +173,8 @@ public class NoteEditor extends Activity {
     	            note.getColumnIndexOrThrow(NotesDbAdapter.KEY_TITLE)));
             mBodyText.setText(note.getString(
                     note.getColumnIndexOrThrow(NotesDbAdapter.KEY_BODY)));
+        } else {
+        	mTitleText.setHint(R.string.Commons_NewNoteName);
         }
     }
 

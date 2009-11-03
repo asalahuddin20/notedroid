@@ -169,7 +169,7 @@ public class NotesDbAdapter {
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
     
-    public boolean updateFolder(long rowId, String title) {
+    public boolean updateTitle(long rowId, String title) {
     	ContentValues args = new ContentValues();
         args.put(KEY_TITLE, title);
         args.put(KEY_MODIFICATION_DATE, DateUtils.getNow(mCtx));
