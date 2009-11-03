@@ -39,7 +39,6 @@ public class NoteList extends ListActivity {
 	private NotesDbAdapter mDbHelper;
 	
 	private long mCurrentParentId = -1;
-	
 	private long mCurrentClickedId = -1;
 	
     /** Called when the activity is first created. */
@@ -67,7 +66,7 @@ public class NoteList extends ListActivity {
         item.setIcon(R.drawable.newfolder32);
         
         item = menu.add(0, MENU_MOVE_FOLDER_UP_ID, 0, R.string.NoteList_MenuMoveUp);
-        item.setIcon(R.drawable.moveup32);        
+        item.setIcon(R.drawable.moveup32);                
         
         return true;
     }
@@ -106,7 +105,6 @@ public class NoteList extends ListActivity {
 	
 	private boolean doMoveUp() {
 		if (mCurrentParentId != -1) {
-    		//mCurrentParentId = mDbHelper.getParentById(mCurrentParentId);
 			mCurrentParentId = mDbHelper.getNoteById(mCurrentParentId).getParentId();
     		fillData();
     		return true;
@@ -118,15 +116,22 @@ public class NoteList extends ListActivity {
     @Override
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
-				
+		
+		long selectedId = ((AdapterContextMenuInfo) menuInfo).id;
+		
+		if (selectedId != -1) {
+			menu.setHeaderTitle(mDbHelper.getNoteById(selectedId).getTitle());
+		}		
+		
 		menu.add(0, MENU_EDIT_NAME_ID, 0, R.string.NoteList_MenuEditName);
         menu.add(0, MENU_DELETE_NOTE_ID, 0, R.string.NoteList_MenuDelete);
         menu.add(0, MENU_SHOW_PROPERTIES_ID, 0, R.string.NoteList_MenuShowProperties);
+        
 	}
     
     @Override
 	public boolean onContextItemSelected(MenuItem item) {
-    	AdapterContextMenuInfo info;
+    	AdapterContextMenuInfo info;    	    	
     	
     	switch(item.getItemId()) {
     	case MENU_EDIT_NAME_ID:
@@ -177,10 +182,9 @@ public class NoteList extends ListActivity {
     
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+        super.onListItemClick(l, v, position, id);                       
         
-
-        int type = mDbHelper.getNoteById(id).getType();
+        int type = mDbHelper.getNoteType(id);
 
         if (type == Note.TYPE_NOTE) {
         	Intent i = new Intent(this, NoteEditor.class);

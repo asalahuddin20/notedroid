@@ -4,7 +4,7 @@
 <string name="Notedroid.ApplicationName">NoteDroid</string>
 <string name="Notedroid.ApplicationDescription">Notedroid is a note-taking application for Android, based on the Android notepad tutorial. </string>
 
-<string name="NoteList.NoNotes">No notes yet!</string>
+<string name="NoteList.NoNotes">No notes yet. Use the "Menu" key to add notes and/or folders.</string>
 <string name="NoteList.MenuDelete">Delete</string>
 <string name="NoteList.MenuEditName">Edit name...</string>
 <string name="NoteList.MenuShowProperties">Properties...</string>
@@ -16,6 +16,10 @@
 <string name="Commons.No">No</string>
 <string name="Commons.TypeNote">Note</string>
 <string name="Commons.TypeFolder">Folder</string>
+<string name="Commons.NewNoteName">New note</string>
+<string name="Commons.NewFolderName">New folder</string>
+<string name="Commons.NoteSaved">Note saved.</string>
+<string name="Commons.FolderSaved">Folder saved.</string>
 
 <string name="AboutDialog.Title">About</string>
 <string name="AboutDialog.VersionText">Version:</string>
