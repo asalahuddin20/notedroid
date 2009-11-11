@@ -1,12 +1,11 @@
 package org.notedroid;
 
-import org.notedroid.dialogs.AboutDialog;
+import org.notedroid.gui.activities.AboutActivity;
 import org.notedroid.gui.activities.NoteEditor;
 import org.notedroid.gui.activities.NoteList;
 import org.notedroid.gui.activities.PreferencesScreen;
 import org.notedroid.model.NotesDbAdapter;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -52,9 +51,14 @@ public class NoteDroid extends Activity {
 		aboutsBtn.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-            	showDialog(ABOUT_DIALOG_ID);
+            	openAboutDialog();
             }          
         });
+	}
+	
+	private void openAboutDialog() {
+		Intent i = new Intent(this, AboutActivity.class);
+		startActivity(i);
 	}
 	
 	private void openNoteList() {
@@ -73,16 +77,6 @@ public class NoteDroid extends Activity {
 	private void openPreferences() {
 		Intent preferencesActivity = new Intent(this, PreferencesScreen.class);
   		startActivity(preferencesActivity);
-	}
-	
-	protected Dialog onCreateDialog(int id) {
-		Dialog dialog = null;
-	    switch(id) {
-	    case ABOUT_DIALOG_ID:
-	    	dialog = new AboutDialog(this);
-	    	break;
-	    }
-	    return dialog;
 	}
 	
 }

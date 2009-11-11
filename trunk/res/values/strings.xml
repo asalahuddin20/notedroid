@@ -21,12 +21,12 @@
 <string name="Commons.NoteSaved">Note saved.</string>
 <string name="Commons.FolderSaved">Folder saved.</string>
 
-<string name="AboutDialog.Title">About</string>
-<string name="AboutDialog.VersionText">Version:</string>
-<string name="AboutDialog.UrlTextValue">http://code.google.com/p/notedroid/</string>
-<string name="AboutDialog.LicenseText">License:</string>
-<string name="AboutDialog.LicenseTextValue">GPL v3</string>
-<string name="AboutDialog.CloseBtn">Close</string>
+<string name="AboutActivity.Title">About NoteDroid</string>
+<string name="AboutActivity.VersionText">Version:</string>
+<string name="AboutActivity.UrlTextValue">http://code.google.com/p/notedroid/</string>
+<string name="AboutActivity.LicenseText">License:</string>
+<string name="AboutActivity.LicenseTextValue">GPL v3</string>
+<string name="AboutActivity.CloseBtn">Close</string>
 
 <string name="PropertiesDialog.Title">Properties</string>
 <string name="PropertiesDialog.Name">Name:</string>
