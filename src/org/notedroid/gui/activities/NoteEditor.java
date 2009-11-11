@@ -45,21 +45,19 @@ public class NoteEditor extends Activity {
         mTitleText = (EditText) findViewById(R.id.NoteEditor_NoteName);
         mBodyText = (EditText) findViewById(R.id.NoteEditor_Body);              
 
-        if (savedInstanceState != null) {
+        Bundle extras = getIntent().getExtras();
+    	if (extras != null) {
+    		mRowId = extras.getLong(NotesDbAdapter.KEY_ROWID);
+    		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);
+    		mNoteMode = extras.getString(NoteEditor.NOTEEDITOR_MODE);
+    	} else if (savedInstanceState != null) {
         	mRowId = savedInstanceState.getLong(NotesDbAdapter.KEY_ROWID);
         	mParentId = savedInstanceState.getLong(NotesDbAdapter.KEY_PARENTID);
         	mNoteMode = savedInstanceState.getString(NoteEditor.NOTEEDITOR_MODE);
         } else {
-        	Bundle extras = getIntent().getExtras();
-        	if (extras != null) {
-        		mRowId = extras.getLong(NotesDbAdapter.KEY_ROWID);
-        		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);
-        		mNoteMode = extras.getString(NoteEditor.NOTEEDITOR_MODE);
-        	} else {
-        		mRowId = new Long(-1);
-        		mParentId = new Long(-1);
-        		mNoteMode = NOTEEDITOR_MODE_SHOW;
-        	}
+        	mRowId = new Long(-1);
+        	mParentId = new Long(-1);
+        	mNoteMode = NOTEEDITOR_MODE_SHOW;
         }
         
         if (mNoteMode.equals(NOTEEDITOR_MODE_EDIT)) {
@@ -101,6 +99,7 @@ public class NoteEditor extends Activity {
     
     private void saveAndExit() {
     	mBoIsManualSave = true;
+    	saveData();
     	setResult(RESULT_OK);
         finish();
     }
@@ -120,18 +119,6 @@ public class NoteEditor extends Activity {
     }
     
     @Override
-    protected void onPause() {
-        super.onPause();
-        saveState();
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        populateFields();
-    }
-    
-    @Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
     	if (keyCode == KeyEvent.KEYCODE_BACK) {
     		mBoIsManualSave = true;
@@ -139,7 +126,7 @@ public class NoteEditor extends Activity {
     	return super.onKeyDown(keyCode, event);
     }
     
-    private void saveState() {
+    private void saveData() {
     	if (!mBoIsCancelled) {
     		String title = mTitleText.getText().toString();
     		String body = mBodyText.getText().toString();
@@ -153,6 +140,13 @@ public class NoteEditor extends Activity {
     			long id = mDbHelper.createNote(mParentId, title, body);
     			if (id > 0) {
     				mRowId = id;
+    				
+    				Bundle extras = getIntent().getExtras();
+    	        	if (extras != null) {
+    	        		extras.putLong(NotesDbAdapter.KEY_ROWID, mRowId);
+    	        		extras.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);
+    	        		extras.putString(NoteEditor.NOTEEDITOR_MODE, mNoteMode);
+    	        	}
     			}
     		} else {
     			mDbHelper.updateNote(mRowId, title, body);

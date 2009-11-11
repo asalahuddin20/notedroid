@@ -19,8 +19,6 @@ public class NameEditor extends Activity {
 	
 	private static final int MENU_SAVE = Menu.FIRST;
     private static final int MENU_CANCEL = Menu.FIRST + 1;
-    
-    private static final String NAME_EDITOR_CURRENT_TEXT = "NAMEEDITOR_CURRENT_TEXT";
 	
     private TextView mTitleLabel;
 	private EditText mNameText;
@@ -48,18 +46,16 @@ public class NameEditor extends Activity {
         mTitleLabel = (TextView) findViewById(R.id.NameEditor_TitleText);
         mNameText = (EditText) findViewById(R.id.NameEditor_NameEditText);
         
-        if (savedInstanceState != null) {
+        Bundle extras = getIntent().getExtras();
+    	if (extras != null) {
+    		mRowId = extras.getLong(NotesDbAdapter.KEY_ROWID);
+    		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);        		
+    	} else if (savedInstanceState != null) {
         	mRowId = savedInstanceState.getLong(NotesDbAdapter.KEY_ROWID);
         	mParentId = savedInstanceState.getLong(NotesDbAdapter.KEY_PARENTID);
         } else {
-        	Bundle extras = getIntent().getExtras();
-        	if (extras != null) {
-        		mRowId = extras.getLong(NotesDbAdapter.KEY_ROWID);
-        		mParentId = extras.getLong(NotesDbAdapter.KEY_PARENTID);        		
-        	} else {
-        		mRowId = null;
-        		mParentId = null;
-        	}
+        	mRowId = null;
+        	mParentId = null;        	
         }     
         
         mTypeText = (TextView) findViewById(R.id.NameEditor_TypeText);
@@ -114,27 +110,9 @@ public class NameEditor extends Activity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(NotesDbAdapter.KEY_ROWID, mRowId);
-        outState.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);
-        outState.putString(NAME_EDITOR_CURRENT_TEXT, mNameText.getText().toString());        
+        outState.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);      
     }
-    
-    @Override
-    protected void onPause() {
-        super.onPause();
-        saveData();
-    }
-    
-    @Override
-    protected void onDestroy() {
-    	super.onDestroy();
-    }
-    
-    @Override
-    protected void onResume() {
-        super.onResume();
-        populateFields();
-    }
-    
+     
     private void populateFields() {
         if (mRowId != -1) {
         	
@@ -187,7 +165,13 @@ public class NameEditor extends Activity {
     		if (mRowId == -1) {
     			long id = mDbHelper.createFolder(title, mParentId);
     			if (id > 0) {
-    				mRowId = id;
+    				mRowId = id;    				    				
+    				
+    				Bundle extras = getIntent().getExtras();
+    	        	if (extras != null) {
+    	        		extras.putLong(NotesDbAdapter.KEY_ROWID, mRowId);
+    	        		extras.putLong(NotesDbAdapter.KEY_PARENTID, mParentId);
+    	        	}
     			}
     		} else {
     			mDbHelper.updateTitle(mRowId, title);
