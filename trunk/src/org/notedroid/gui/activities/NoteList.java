@@ -24,6 +24,8 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class NoteList extends ListActivity {
 	
+	public static final String NOTELIST_PARENT = "NOTELIST_PARENT";
+	
 	private static final int ACTIVITY_CREATE_NOTE = 0;
     private static final int ACTIVITY_EDIT_NOTE = 1;
     private static final int ACTIVITY_CREATE_FOLDER = 2;
@@ -49,6 +51,15 @@ public class NoteList extends ListActivity {
         
         mDbHelper = new NotesDbAdapter(this);
         mDbHelper.open();
+        
+        Bundle extras = getIntent().getExtras();
+    	if (extras != null) {
+    		mCurrentParentId = extras.getLong(NOTELIST_PARENT);    		
+    	} else if (savedInstanceState != null) {
+    		mCurrentParentId = savedInstanceState.getLong(NOTELIST_PARENT);        	
+        } else {
+        	mCurrentParentId = new Long(-1);        	
+        }
         
         fillData();
         
@@ -258,6 +269,12 @@ public class NoteList extends ListActivity {
     		 ((PropertiesDialog) dialog).prepareDialog(mDbHelper, mCurrentClickedId);
     		 break;
     	 }
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putLong(NOTELIST_PARENT, mCurrentParentId);
     }
 
 }
