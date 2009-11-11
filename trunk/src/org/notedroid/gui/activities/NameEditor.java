@@ -31,9 +31,6 @@ public class NameEditor extends Activity {
 	
 	private NotesDbAdapter mDbHelper;
     
-    private boolean mBoIsCancelled = false;
-    private boolean mBoIsManualSave = false;
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
@@ -94,14 +91,12 @@ public class NameEditor extends Activity {
     }
     
     private void saveAndExit() {
-    	mBoIsManualSave = true;
     	saveData();
     	setResult(RESULT_OK);
         finish();
     }
     
     private void exitWithoutSave() {
-    	mBoIsCancelled = true;
     	setResult(RESULT_OK);
         finish();
     }
@@ -154,7 +149,6 @@ public class NameEditor extends Activity {
     }
     
     private void saveData() {
-    	if (!mBoIsCancelled) {
     		String title = mNameText.getText().toString();
 
     		if ((title == null) || 
@@ -177,15 +171,11 @@ public class NameEditor extends Activity {
     			mDbHelper.updateTitle(mRowId, title);
     		}
     		
-    		if (mBoIsManualSave) {
-    			if (mDbHelper.getNoteType(mRowId) == Note.TYPE_FOLDER) {
-    				ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_FolderSaved));
-    			} else {
-    				ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_NoteSaved));
-    			}
-    			mBoIsManualSave = false;
+    		if (mDbHelper.getNoteType(mRowId) == Note.TYPE_FOLDER) {
+    			ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_FolderSaved));
+    		} else {
+    			ApplicationUtils.showToasterNotification(this, this.getString(R.string.Commons_NoteSaved));
     		}
-    	}
     }
         
 }
