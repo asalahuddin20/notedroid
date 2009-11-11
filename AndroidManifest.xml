@@ -16,6 +16,7 @@
 		<activity android:name=".gui.activities.NoteList"></activity>
 		<activity android:name=".gui.activities.PreferencesScreen"></activity>
 
+		<activity android:name=".gui.activities.AboutActivity" android:label="@string/AboutActivity.Title" android:theme="@android:style/Theme.Dialog"></activity>
 	</application>
     <uses-sdk android:minSdkVersion="3" />
 </manifest> 
